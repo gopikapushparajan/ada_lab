@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+
+void push(struct Node** head_ref, int new_data) {
+    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+
+void pop(struct Node** head_ref) {
+    if (*head_ref == NULL) {
+        printf("\nList is empty");
+    } else {
+        struct Node* ptr = *head_ref;
+        *head_ref = ptr->next;
+        free(ptr);
+        printf("\nNode deleted from the beginning...");
+    }
+}
+
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("\nList is empty");
+        return;
+    }
+    
+    printf("\nList: ");
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL");
+}
+
+int main() {
+    struct Node* head = NULL; 
+    int choice, data;
+    
+    while(1) {
+       
+        printf("\nLinked List Menu:");
+        printf("\n1. Push (Add a node at the beginning)");
+        printf("\n2. Pop (Delete a node from the beginning)");
+        printf("\n3. Print the list");
+        printf("\n4. Exit");
+        
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1: 
+                printf("\nEnter the value to push: ");
+                scanf("%d", &data);
+                push(&head, data);
+                break;
+            case 2: 
+                pop(&head);
+                break;
+            case 3: 
+                printList(head);
+                break;
+            case 4: 
+                printf("\nExiting program...");
+                exit(0);  
+            default: 
+                printf("\nInvalid choice. Please try again.");
+        }
+    }
+    
+    return 0;
+}
